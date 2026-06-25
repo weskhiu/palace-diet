@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Palace — 記録の宮殿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<header class="hero">
+  <div class="hero-ornament top"></div>
+  <p class="eyebrow">— the palace —</p>
+  <h1 class="hero-title">記録の宮殿</h1>
+  <p class="hero-sub">一日ごとに、扉はひらく</p>
+  <div class="hero-ornament bottom"></div>
+</header>
+
+<main>
+
+  <section class="gate-section">
+    <div class="gate-wrap" id="gateWrap">
+      <svg class="gate-frame" id="gateFrame" viewBox="0 0 320 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="宮殿の扉、継続記録に応じて変化する">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e8c878"/>
+            <stop offset="100%" stop-color="#a07c3f"/>
+          </linearGradient>
+          <radialGradient id="glow" cx="50%" cy="38%" r="55%">
+            <stop offset="0%" stop-color="#f3e0a8" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#f3e0a8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <rect x="0" y="0" width="320" height="420" fill="#1c140d"/>
+
+        <circle id="glowCircle" cx="160" cy="150" r="40" fill="url(#glow)"/>
+
+        <path d="M 40 400 L 40 140 Q 40 40 160 30 Q 280 40 280 140 L 280 400 Z"
+              fill="#2a1f15" stroke="url(#goldGrad)" stroke-width="3" id="outerArch"/>
+
+        <path d="M 64 400 L 64 150 Q 64 64 160 56 Q 256 64 256 150 L 256 400 Z"
+              fill="#120d08" stroke="#6b5636" stroke-width="1.5" id="innerArch"/>
+
+        <g id="silhouette" stroke="#d9b876" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+          <path d="M160 150 Q150 150 148 162 Q147 174 154 182 L154 196 Q140 202 136 222 L134 280 Q133 320 138 360 L150 396 L170 396 L182 360 Q187 320 186 280 L184 222 Q180 202 166 196 L166 182 Q173 174 172 162 Q170 150 160 150 Z"/>
+        </g>
+
+        <g id="ornamentsTier1" opacity="0">
+          <circle cx="160" cy="44" r="4" fill="#e8c878"/>
+          <path d="M120 60 Q160 40 200 60" stroke="#c9a35c" stroke-width="1.5" fill="none"/>
+        </g>
+
+        <g id="ornamentsTier2" opacity="0">
+          <path d="M40 140 L20 140 M280 140 L300 140" stroke="#c9a35c" stroke-width="2"/>
+          <circle cx="20" cy="140" r="5" fill="none" stroke="#c9a35c" stroke-width="1.5"/>
+          <circle cx="300" cy="140" r="5" fill="none" stroke="#c9a35c" stroke-width="1.5"/>
+        </g>
+
+        <g id="ornamentsTier3" opacity="0">
+          <path d="M40 400 Q160 415 280 400" stroke="#e8c878" stroke-width="2" fill="none"/>
+          <path d="M60 408 L60 412 M100 411 L100 415 M220 411 L220 415 M260 408 L260 412" stroke="#e8c878" stroke-width="1.5"/>
+        </g>
+      </svg>
+
+      <p class="gate-caption" id="gateCaption">最初の扉を、ひらこう</p>
+    </div>
+
+    <div class="streak-row">
+      <div class="streak-stat">
+        <span class="streak-num" id="streakNum">0</span>
+        <span class="streak-label">連続日数</span>
+      </div>
+      <div class="streak-divider"></div>
+      <div class="streak-stat">
+        <span class="streak-num" id="totalNum">0</span>
+        <span class="streak-label">総記録数</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card record-card">
+    <h2 class="card-title">今日を記す</h2>
+    <form id="entryForm">
+      <div class="field-row">
+        <label for="weightInput">体重 <span class="unit">kg</span></label>
+        <input type="number" id="weightInput" step="0.1" min="0" placeholder="—" inputmode="decimal">
+      </div>
+      <div class="field-row">
+        <label for="moodSelect">気分</label>
+        <select id="moodSelect">
+          <option value="3">◆ 良い</option>
+          <option value="2" selected>◇ ふつう</option>
+          <option value="1">○ つらい</option>
+        </select>
+      </div>
+      <div class="field-row note-row">
+        <label for="noteInput">ひとこと</label>
+        <textarea id="noteInput" rows="2" placeholder="今日の小さな勝利、気づき..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary" id="submitBtn">この一日を刻む</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">歩み</h2>
+    <div class="chart-wrap">
+      <canvas id="weightChart" height="160"></canvas>
+    </div>
+    <p class="chart-empty" id="chartEmpty">記録が増えると、ここに歩みが見えてくる</p>
+  </section>
+
+  <section class="card">
+    <div class="card-title-row">
+      <h2 class="card-title">記録の巻物</h2>
+      <button class="btn-text" id="resetBtn">すべて消す</button>
+    </div>
+    <ul class="scroll-list" id="scrollList">
+      <li class="scroll-empty">まだ記録はありません</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p class="footer-ornament"></p>
+  <p class="footer-text">毎日、扉はひとつずつ豪華になる</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
